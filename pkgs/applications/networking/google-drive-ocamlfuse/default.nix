@@ -3,21 +3,21 @@
 
 stdenv.mkDerivation rec {
   name = "google-drive-ocamlfuse-${version}";
-  version = "0.7.1";
+  version = "0.7.6";
 
   src = fetchFromGitHub {
     owner = "astrada";
     repo = "google-drive-ocamlfuse";
     rev = "v${version}";
-    sha256 = "0sjjlfndz8s78fl7vb8alz3nsksjrm4hbnnj11xa0i6k16v6pv1y";
+    sha256 = "0vn0s4lvjxbrc0n4naknh288cd1chy6yldqpsq0vyq0xm2ck9rxj";
   };
 
   nativeBuildInputs = [ dune ];
 
   buildInputs = [ zlib ocaml ocamlfuse findlib gapi_ocaml ocaml_sqlite3 camlidl ];
 
-  buildPhase = "jbuilder build @install";
-  installPhase = "mkdir $out && dune install --prefix $out";
+  buildPhase = "dune build @install";
+  installPhase = "dune install --prefix $out --libdir $(ocamlfind printconf destdir)";
 
   meta = {
     homepage = http://gdfuse.forge.ocamlcore.org/;
