@@ -1,28 +1,32 @@
 { stdenv, fetchurl, autoreconfHook, pkgconfig, libxkbcommon, pango, which, git
 , cairo, libxcb, xcbutil, xcbutilwm, xcbutilxrm, libstartup_notification
-, bison, flex, librsvg, check
+, bison, flex, librsvg, check, ninja, meson, doxygen, uncrustify, cppcheck, ronn,
+  fetchFromGitHub
 }:
 
 stdenv.mkDerivation rec {
-  version = "1.5.2";
   name = "rofi-unwrapped-${version}";
+  version = "1.5.2b";
 
-  src = fetchurl {
-    url = "https://github.com/DaveDavenport/rofi/releases/download/${version}/rofi-${version}.tar.gz";
-    sha256 = "1rczxz6l32vnclarzga1sm1d5iq9rfscb9j7f8ih185n59hf0517";
+  src = fetchFromGitHub {
+    owner = "davatorium";
+    repo = "rofi";
+    rev = "a1362010c32ce97d166db2e2b3d8497d4d16d409";
+    sha256 = "05nar2lcs82rxdx9dv2ik4mpxxxyp8xx2lj2iid3x5rha6jkai4y";
+    fetchSubmodules= true;
   };
 
-  preConfigure = ''
-    patchShebangs "script"
-    # root not present in build /etc/passwd
-    sed -i 's/~root/~nobody/g' test/helper-expand.c
-  '';
-
-  nativeBuildInputs = [ autoreconfHook pkgconfig ];
+  nativeBuildInputs = [ pkgconfig ];
   buildInputs = [ libxkbcommon pango cairo git bison flex librsvg check
     libstartup_notification libxcb xcbutil xcbutilwm xcbutilxrm which
+    doxygen uncrustify cppcheck ronn ninja meson
   ];
-  doCheck = false;
+
+  configurePhase = "meson setup build --prefix=\"$out\"";
+
+  buildPhase = "ninja -C build";
+
+  installPhase = "ninja -C build install";
 
   meta = with stdenv.lib; {
     description = "Window switcher, run dialog and dmenu replacement";
