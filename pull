@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 git remote update channels
-git rebase channels/nixos-19.03
+git merge --allow-unrelated-histories channels/nixos-19.03
