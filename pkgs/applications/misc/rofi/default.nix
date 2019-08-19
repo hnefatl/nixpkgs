@@ -9,10 +9,10 @@ stdenv.mkDerivation rec {
   version = "1.5.2b";
 
   src = fetchFromGitHub {
-    owner = "davatorium";
+    owner = "hnefatl";
     repo = "rofi";
-    rev = "a1362010c32ce97d166db2e2b3d8497d4d16d409";
-    sha256 = "05nar2lcs82rxdx9dv2ik4mpxxxyp8xx2lj2iid3x5rha6jkai4y";
+    rev = "3d777e18ae3d413d7eade4d06e7116cd59cb7ab4";
+    sha256 = "0qhz7ya709pav7rl384a624vccnax2b37lb2f7bh1rh54v6bs04r";
     fetchSubmodules= true;
   };
 
