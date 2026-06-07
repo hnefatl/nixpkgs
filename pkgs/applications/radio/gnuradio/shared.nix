@@ -38,10 +38,13 @@ in
       overrideSrc
     else
       fetchFromGitHub {
+        # From https://github.com/oluies/gnuradio to include fix in
+        # https://github.com/gnuradio/gnuradio/pull/8141, but backdated off head
+        # and onto v3.10.12.0.
         repo = "gnuradio";
-        owner = "gnuradio";
-        rev = "v${version}";
-        sha256 = sourceSha256;
+        owner = "hnefatl";
+        rev = "29fa499a4aef2b19eff15d3c49da118aa25ffab2";
+        sha256 = "sha256-8UDVSzs3BhRmKb3NwKwaWqqbP2NSnm1Ui1iIaS5TxCg=";
       };
   nativeBuildInputs = [
     removeReferencesTo
